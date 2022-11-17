@@ -16,3 +16,7 @@ class Post(models.Model):
     date = models.DateField(auto_now=True)
     slug = models.SlugField
     content = models.CharField(max_length=5000)
+
+
+class Tag(models.Model):
+    caption = models.CharField(max_length=100)
