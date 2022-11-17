@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 
 # Create your models here.
 
@@ -19,10 +20,10 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
     excerpt = models.CharField(max_length=1000)
-    image_name = models.ImageField
+    image_name = models.CharField(max_length=100)
     date = models.DateField(auto_now=True)
-    slug = models.SlugField
-    content = models.CharField(max_length=5000)
+    slug = models.SlugField(unique=True, db_index=True)
+    content = models.TextField(validators=[MinLengthValidator(10)])
 
 
 class Tag(models.Model):
