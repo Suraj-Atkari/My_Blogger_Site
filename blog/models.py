@@ -17,6 +17,7 @@ class Author(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, default=None)
     excerpt = models.CharField(max_length=1000)
     image_name = models.ImageField
     date = models.DateField(auto_now=True)
