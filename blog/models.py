@@ -33,3 +33,6 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, db_index=True, default=None)
     content = models.TextField(validators=[MinLengthValidator(10)])
     tags = models.ManyToManyField(Tag)
+
+    def __str__(self):
+        return f"{self.title}"
