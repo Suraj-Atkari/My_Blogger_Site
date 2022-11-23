@@ -28,8 +28,10 @@
   <main>
       {{ post.content|linebreaks }}
   </main>
-  <div>
+  <section id="comment-form">
+    <h2>Your Comment</h2>
     <form>
+      {% csrf_token %}
       {% for form_field in comment_form %}
         <div class="form-control">
           {{ form_field.label_tag }}
@@ -39,5 +41,5 @@
       {% endfor %}
       <button>Save</button>
     </form>
-  </div>
+  </section>
   {% endblock %}
