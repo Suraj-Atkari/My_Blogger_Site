@@ -11,6 +11,14 @@ class Tag(models.Model):
         return f"{self.caption}"
 
 
+class Comment(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    text = models.TextField(max_length=500)
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comments")
+
+
 class Author(models.Model):
     first_name = models.CharField(max_length=55)
     last_name = models.CharField(max_length=55)
