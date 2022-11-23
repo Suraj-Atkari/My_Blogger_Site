@@ -30,7 +30,7 @@
   </main>
   <section id="comment-form">
     <h2>Your Comment</h2>
-    <form>
+    <form action="" method="POST">
       {% csrf_token %}
       {% for form_field in comment_form %}
         <div class="form-control">

@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Post
+from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView, View
 from django.views.generic import DetailView, ListView, FormView
 from .forms import CommentFormView
+from django.urls import reverse
 
 # Create your views here.
 
@@ -44,24 +46,52 @@ class AllPostsView(ListView):
 #     })
 
 
-class DetailedPostView(DetailView,):
-    template_name = "blog/post-detail.html"
-    model = Post
+class DetailedPostView(View):
+    # template_name = "blog/post-detail.html"
+    # model = Post
     # context_object_name = "post"
     # slug_field = "slug"
+    def get(self, request, slug):
+        post = Post.objects.get(slug=slug)
+        context = {
+            "post": post,
+            "post_tags": post.tags.all(),
+            "comment_form": CommentFormView()
+        }
+        return render(request, "blog/post-detail.html", context)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["post_tags"] = self.object.tags.all()
-        context["comment_form"] = CommentFormView()
-        return context
+    def post(self, request, slug):
+        comment_form = CommentFormView(request.POST)
+        post = Post.objects.get(slug=slug)
 
+        if comment_form.is_valid:
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.save()
 
-# def post_detail(request, slug):
-#     identified_post = get_object_or_404(
-#         Post, slug=slug)  # Post.obejcts.get(slug=slug)
-#     return render(request, "blog/post-detail.html", {
-#         "post": identified_post,
-#         "post_tags": identified_post.tags.all()
-#     }
-#     )
+            return HttpResponseRedirect(reverse("post-detail-page", args=[slug]))
+
+        context = {
+            "post": post,
+            "post-tags": post.tags.all(),
+            "comment_form": CommentFormView()
+        }
+
+        return render(request, "blog/post-detail.html", context)
+
+        # This is comment out as we cannot POST the request while using FormView as we need
+        # comment POST needs tobe handelled
+        # def get_context_data(self, **kwargs):
+        #     context = super().get_context_data(**kwargs)
+        #     context["post_tags"] = self.object.tags.all()
+        #     context["comment_form"] = CommentFormView()
+        #     return context
+
+        # def post_detail(request, slug):
+        #     identified_post = get_object_or_404(
+        #         Post, slug=slug)  # Post.obejcts.get(slug=slug)
+        #     return render(request, "blog/post-detail.html", {
+        #         "post": identified_post,
+        #         "post_tags": identified_post.tags.all()
+        #     }
+        #     )
