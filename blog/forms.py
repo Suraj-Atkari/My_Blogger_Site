@@ -10,5 +10,4 @@ class CommentFormView(forms.ModelForm):
             "user_name": "Your name",
             "email": "Your email",
             "text": "Your Message"
-
         }
