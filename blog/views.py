@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import Post
 from .forms import CommentForm
+
 # Create your views here.
 
 
@@ -45,7 +46,7 @@ class DetailedPostView(View):
             "post_tags": post.tags.all(),
             "comment_form": CommentForm(),
             "comments": post.comments.all().order_by("-id"),
-            "saved_for_later": self.is_stored_post(request, post.id)
+            "saved_for_later": self.is_stored_post(request, post.id),
         }
         return render(request, "blog/post-detail.html", context)
 
@@ -65,7 +66,7 @@ class DetailedPostView(View):
             "post-tags": post.tags.all(),
             "comment_form": comment_form,
             "comments": post.comments.all().order_by("-id"),
-            "saved_for_later": self.is_stored_post(request, post.id)
+            "saved_for_later": self.is_stored_post(request, post.id),
         }
 
         return render(request, "blog/post-detail.html", context)
