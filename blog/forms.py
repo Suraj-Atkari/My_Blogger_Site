@@ -2,12 +2,12 @@ from django import forms
 from .models import Comment
 
 
-class CommentFormView(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         exclude = ["post"]
-        label = {
+        labels = {
             "user_name": "Your name",
-            "email": "Your email",
+            "user_email": "Your email",
             "text": "Your Message"
         }
