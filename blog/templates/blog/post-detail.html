@@ -64,7 +64,13 @@
           {{ form_field.errors }}
         </div> 
       {% endfor %}
-      <button>Save</button>
+      <button>
+        {% if saved_for_later %}
+          Remove from "Read Later" List
+        {% else %}
+          Read Later
+        {% endif %}
+      </button>
     </form>
   </section>
   {% endblock %}
