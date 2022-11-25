@@ -9,4 +9,4 @@ urlpatterns = [
     path("posts/<slug:slug>", views.DetailedPostView.as_view(),
          name="post-detail-page"),  # /posts/my-first-post
     path("read-later", views.ReadLaterView.as_view(), name="read-later")
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
